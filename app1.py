@@ -4,8 +4,11 @@ import numpy as np
 import pytesseract
 from PIL import Image
 
-
 st.title("Reconocimiento óptico de Caracteres")
+
+# Mostrar imagen debajo del título
+imagen = Image.open("letras.png")
+st.image(imagen, caption="Imagen de referencia", use_container_width=True)
 
 img_file_buffer = st.camera_input("Toma una Foto")
 
@@ -19,17 +22,10 @@ if img_file_buffer is not None:
     cv2_img = cv2.imdecode(np.frombuffer(bytes_data, np.uint8), cv2.IMREAD_COLOR)
     
     if filtro == 'Con Filtro':
-         cv2_img=cv2.bitwise_not(cv2_img)
+         cv2_img = cv2.bitwise_not(cv2_img)
     else:
-         cv2_img= cv2_img
+         cv2_img = cv2_img
     
-        
     img_rgb = cv2.cvtColor(cv2_img, cv2.COLOR_BGR2RGB)
-    text=pytesseract.image_to_string(img_rgb)
-    st.write(text) 
-    
-
-
-    
-
-
+    text = pytesseract.image_to_string(img_rgb)
+    st.write(text)
